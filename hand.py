@@ -72,6 +72,10 @@ def flush(previous):
     return find_trick(previous, trick_parts_needed=[5], trick_name='flush', group_key_fn=get_card_suit)
 
 
+# def straight(previous):
+#     return find_trick(previous, trick_parts_needed=[5], trick_name='straight', group_key_fn=get_card_suit)
+
+
 def full_house(previous):
     return find_trick(previous, trick_parts_needed=[3, 2], trick_name='full house', group_key_fn=get_card_value)
 
@@ -81,5 +85,5 @@ def hand(hole_cards, community_cards):
     print()
     cards = hole_cards + community_cards
     sorted_cards = sort_cards_by_value(cards)
-    cards_and_best_hand = nothing(sorted_cards) >> pair >> two_pair >> three_of_a_kind >> four_of_a_kind >> flush >> full_house
+    cards_and_best_hand = nothing(sorted_cards) >> pair >> two_pair >> three_of_a_kind >> flush >> full_house >> four_of_a_kind
     return cards_and_best_hand[1]
