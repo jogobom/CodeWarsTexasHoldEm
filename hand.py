@@ -1,8 +1,7 @@
-from pipeop import pipes
 from itertools import groupby
 
 def nothing(cards):
-    return cards, ('nothing', [c[:1] for c in cards[:5]])
+    return cards, ('nothing', [get_card_value(c) for c in cards[:5]])
 
 def get_card_value(card):
     return card[0:-1]
@@ -84,10 +83,9 @@ def straight_flush(previous):
 def full_house(previous):
     return find_trick(previous, trick_parts_needed=[3, 2], trick_name='full house', group_key_fn=group_by_value)
 
-@pipes
 def hand(hole_cards, community_cards):
     print()
     cards = hole_cards + community_cards
     sorted_cards = sort_cards_by_value(cards)
-    cards_and_best_hand = nothing(sorted_cards) >> pair >> two_pair >> three_of_a_kind >> straight >> flush >> full_house >> four_of_a_kind >> straight_flush
+    cards_and_best_hand = straight_flush(four_of_a_kind(full_house(flush(straight(three_of_a_kind(two_pair(pair(nothing(sorted_cards)))))))))
     return cards_and_best_hand[1]
